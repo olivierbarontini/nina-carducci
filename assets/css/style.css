@@ -43,6 +43,13 @@ body {
 }
 
 /* Carousel optimisé pour les performances */
+.carousel-inner {
+  /* min-height : réserve l'espace du carousel AVANT le chargement de l'image
+     Prévient le CLS (Cumulative Layout Shift) qui baisse le score de performance
+     16:9 ratio ~ 90vh = 1620px height, donc min-height = 600px pour mobile/tablet */
+  min-height: 600px;
+}
+
 .carousel-item {
   aspect-ratio: 16 / 9;
   overflow: hidden;
