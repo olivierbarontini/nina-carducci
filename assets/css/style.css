@@ -161,6 +161,9 @@ body {
   height: 100%;
   object-fit: cover;
   padding: 0.5em;
+  /* Forcer un carré parfait indépendamment des dimensions de l'image
+     Cela assure que toutes les images affichent à la même taille dans la grille */
+  aspect-ratio: 1 / 1;
 }
 .mg-prev,
 .mg-next {

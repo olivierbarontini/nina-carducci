@@ -18,13 +18,41 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://www.ninacarducci.com/" />
 
+    <!-- STRATÉGIE DE CHARGEMENT CSS & FONTES OPTIMISÉE
+         Objectif : minimiser le rendu bloquant et optimiser le LCP (Largest Contentful Paint)
+         
+         1. CSS custom (style.css) : chargé en sync (NÉCESSAIRE pour éviter FOUC)
+         2. Bootstrap CSS : chargé en async via preload (non critique pour LCP)
+         3. Google Fonts : avec display=swap (texte s'affiche d'abord avec serif, puis Google Fonts)
+    -->
+
     <!-- CSS -->
-    <link rel="stylesheet" href="./assets/bootstrap/bootstrap.min.css" />
+    <!-- CSS custom du site : CRITIQUE pour le rendu du carousel et du header
+         Doit être chargé en synchrone pour éviter le flash of unstyled content (FOUC)
+         Taille réduite (2,6 KiB) pour minimiser l'impact sur le LCP -->
     <link rel="stylesheet" href="./assets/css/style.css" />
 
+    <!-- Bootstrap CSS chargé en async pour ne pas bloquer le LCP
+         - preload : indique au navigateur de commencer le téléchargement en priorité
+         - onload : bascule de preload à stylesheet une fois chargé
+         - noscript : fallback en cas de JavaScript désactivé
+         Cela réduit le CSS inutilisé de 22,8 KiB pour le rendu initial -->
+    <link
+      rel="preload"
+      as="style"
+      href="./assets/bootstrap/bootstrap.min.css"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="./assets/bootstrap/bootstrap.min.css" />
+    </noscript>
+
     <!-- Optimisation des polices -->
+    <!-- preconnect : établit une connexion prioritaire aux serveurs externes de Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- display=swap : affiche le texte immédiatement avec une police système,
+         puis bascule vers la police Google une fois chargée. Évite le blocage du rendu. -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Spectral:ital,wght@0,400;1,300;1,400;1,800&display=swap"
       rel="stylesheet"
@@ -148,16 +176,19 @@
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide-to="0"
               class="active"
+              aria-label="Aller à la slide 1"
             ></button>
             <button
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide-to="1"
+              aria-label="Aller à la slide 2"
             ></button>
             <button
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide-to="2"
+              aria-label="Aller à la slide 3"
             ></button>
           </div>
 
