@@ -42,6 +42,17 @@ body {
   width: 20px;
 }
 
+.carousel-item {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.carousel-item img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
 #about {
   display: flex;
   background-color: #f6d2b8;
@@ -101,7 +112,7 @@ body {
 /* Style du tag actif */
 .tags-bar .nav-link.active-tag {
   background-color: #c9b26d;
-  color: white !important;
+  color: black !important;
 }
 
 /* Style au survol */

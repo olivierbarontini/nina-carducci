@@ -30,6 +30,13 @@
       rel="stylesheet"
     />
 
+    <!-- Préchargement de l’image LCP (première image du carrousel) -->
+    <link
+      rel="preload"
+      as="image"
+      href="./assets/images/slider/ryoji-1600.webp"
+    />
+
     <!-- Accessibilité -->
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light dark" />
@@ -135,94 +142,117 @@
           class="carousel slide"
           data-bs-ride="carousel"
         >
+          <!-- Indicateurs du carrousel -->
           <div class="carousel-indicators">
             <button
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide-to="0"
               class="active"
-              aria-current="true"
-              aria-label="Slide 1"
             ></button>
             <button
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide-to="1"
-              aria-label="Slide 2"
             ></button>
             <button
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide-to="2"
-              aria-label="Slide 3"
             ></button>
           </div>
+
           <div class="carousel-inner">
+            <!-- SLIDE 1 — LCP (chargée immédiatement) -->
             <div class="carousel-item active">
               <picture>
+                <!-- Versions WebP optimisées -->
                 <source
-                  srcset="
-                    ./assets/images/slider/ryoji-iwata-wUZjnOv7t0g-unsplash.webp
-                  "
                   type="image/webp"
+                  srcset="
+                    ./assets/images/slider/ryoji-480.webp   480w,
+                    ./assets/images/slider/ryoji-1024.webp 1024w,
+                    ./assets/images/slider/ryoji-1600.webp 1600w
+                  "
+                  sizes="100vw"
                 />
+                <!-- Fallback si WebP non supporté -->
                 <img
-                  src="./assets/images/slider/ryoji-iwata-wUZjnOv7t0g-unsplash.jpg"
+                  src="./assets/images/slider/ryoji-1024.webp"
                   class="d-block w-100"
+                  width="1600"
+                  height="900"
                   alt="Photographie de mariage en extérieur"
                 />
               </picture>
             </div>
 
+            <!-- SLIDE 2 — lazy-loaded -->
             <div class="carousel-item">
               <picture>
                 <source
-                  srcset="
-                    ./assets/images/slider/nicholas-green-nPz8akkUmDI-unsplash.webp
-                  "
                   type="image/webp"
+                  srcset="
+                    ./assets/images/slider/nicholas-480.webp   480w,
+                    ./assets/images/slider/nicholas-1024.webp 1024w,
+                    ./assets/images/slider/nicholas-1600.webp 1600w
+                  "
+                  sizes="100vw"
                 />
                 <img
-                  src="./assets/images/slider/nicholas-green-nPz8akkUmDI-unsplash.jpg"
+                  src="./assets/images/slider/nicholas-1024.webp"
                   class="d-block w-100"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
                   alt="Portrait d'entreprise en studio"
                 />
               </picture>
             </div>
 
+            <!-- SLIDE 3 — lazy-loaded -->
             <div class="carousel-item">
               <picture>
                 <source
-                  srcset="
-                    ./assets/images/slider/edward-cisneros-3_h6-1NPDGw-unsplash.webp
-                  "
                   type="image/webp"
+                  srcset="
+                    ./assets/images/slider/cisneros-480.webp   480w,
+                    ./assets/images/slider/cisneros-1024.webp 1024w,
+                    ./assets/images/slider/cisneros-1600.webp 1600w
+                  "
+                  sizes="100vw"
                 />
                 <img
-                  src="./assets/images/slider/edward-cisneros-3_h6-1NPDGw-unsplash.jpg"
+                  src="./assets/images/slider/cisneros-1024.webp"
                   class="d-block w-100"
+                  width="1600"
+                  height="900"
+                  loading="lazy"
                   alt="Concert en salle avec musiciens"
                 />
               </picture>
             </div>
           </div>
+
+          <!-- Contrôles du carrousel -->
           <button
             class="carousel-control-prev"
             type="button"
             data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev"
           >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Précédent</span>
           </button>
+
           <button
             class="carousel-control-next"
             type="button"
             data-bs-target="#carouselExampleIndicators"
             data-bs-slide="next"
           >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Suivant</span>
           </button>
         </div>
       </section>
