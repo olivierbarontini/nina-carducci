@@ -42,9 +42,13 @@ body {
   width: 20px;
 }
 
+/* Carousel optimisé pour les performances */
 .carousel-item {
   aspect-ratio: 16 / 9;
   overflow: hidden;
+  /* contain: isoler le rendu du carousel du reste de la page
+     Permet au navigateur de calculer l'image LCP plus rapidement */
+  contain: layout style paint;
 }
 
 .carousel-item img {
@@ -397,4 +401,16 @@ input[type="submit"] {
   .picture {
     width: 80%;
   }
+}
+
+/* ========================= */
+/* Correction LCP Lighthouse */
+/* ========================= */
+
+#lcp-image {
+  /* Ensure the image is treated as a visible LCP candidate */
+}
+.carousel-item.active #lcp-image {
+  opacity: 1 !important;
+  transform: none !important;
 }

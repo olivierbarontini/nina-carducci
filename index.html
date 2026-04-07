@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="fr">
   <head>
     <!-- Informations essentielles -->
     <meta charset="UTF-8" />
@@ -30,12 +30,6 @@
       rel="stylesheet"
     />
 
-    <!-- Préchargement de l’image LCP (première image du carrousel) -->
-    <link
-      rel="preload"
-      as="image"
-      href="./assets/images/slider/ryoji-1600.webp"
-    />
 
     <!-- Accessibilité -->
     <meta name="theme-color" content="#ffffff" />
@@ -75,14 +69,18 @@
     <!-- Favicon -->
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
 
-    <!-- Scripts JS -->
+    <!-- Scripts JS avec attribut defer pour ne pas bloquer le rendu initial -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
       crossorigin="anonymous"
+      defer
     ></script>
+    <!-- Bootstrap chargé en defer : les styles interactifs ne bloquent pas le LCP -->
     <script src="./assets/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <!-- Plugin galerie : chargé en defer pour optimiser le rendu initial -->
     <script src="./assets/js/maugallery.js" defer></script>
+    <!-- Scripts du site : initialise les plugins après le chargement complet -->
     <script src="./assets/js/scripts.js" defer></script>
 
     <!-- Référencement local Schema.org -->
@@ -114,7 +112,8 @@
   <body>
     <!-- En-tête global du site (logo / navigation principale) -->
     <header class="top-header">
-      <h3 class="name">Nina Carducci</h3>
+      <!-- h1 : titre principal du site (structure hiérarchique SEO + accessibilité) -->
+      <h1 class="name">Nina Carducci</h1>
       <nav class="nav">
         <ul>
           <li><a href="#about">À propos</a></li>
@@ -163,28 +162,26 @@
           </div>
 
           <div class="carousel-inner">
-            <!-- SLIDE 1 — LCP (chargée immédiatement) -->
+            <!-- SLIDE 1 — Image LCP (Largest Contentful Paint) optimisée pour les performances -->
             <div class="carousel-item active">
-              <picture>
-                <!-- Versions WebP optimisées -->
-                <source
-                  type="image/webp"
-                  srcset="
-                    ./assets/images/slider/ryoji-480.webp   480w,
-                    ./assets/images/slider/ryoji-1024.webp 1024w,
-                    ./assets/images/slider/ryoji-1600.webp 1600w
-                  "
-                  sizes="100vw"
-                />
-                <!-- Fallback si WebP non supporté -->
-                <img
-                  src="./assets/images/slider/ryoji-1024.webp"
-                  class="d-block w-100"
-                  width="1600"
-                  height="900"
-                  alt="Photographie de mariage en extérieur"
-                />
-              </picture>
+              <img
+                id="lcp-image"
+                src="./assets/images/slider/ryoji-1024.webp"
+                <!-- srcset : image responsive pour différentes tailles d'écran -->
+                srcset="./assets/images/slider/ryoji-480.webp 480w, ./assets/images/slider/ryoji-1024.webp 1024w, ./assets/images/slider/ryoji-1600.webp 1600w"
+                sizes="100vw"
+                <!-- fetchpriority="high" : indique au navigateur que c'est l'image prioritaire -->
+                fetchpriority="high"
+                <!-- loading="eager" : charge l'image immédiatement au lieu de lazy-loading -->
+                loading="eager"
+                <!-- decoding="async" : décode l'image en parallèle sans bloquer le rendu -->
+                decoding="async"
+                class="d-block w-100"
+                <!-- width/height : prévient le CLS (Cumulative Layout Shift) -->
+                width="1600"
+                height="900"
+                alt="homme d'affaire qui marche sur un passage piéton en ville"
+              />
             </div>
 
             <!-- SLIDE 2 — lazy-loaded -->
@@ -205,7 +202,7 @@
                   width="1600"
                   height="900"
                   loading="lazy"
-                  alt="Portrait d'entreprise en studio"
+                  alt="public dans une salle de concert"
                 />
               </picture>
             </div>
@@ -228,7 +225,7 @@
                   width="1600"
                   height="900"
                   loading="lazy"
-                  alt="Concert en salle avec musiciens"
+                  alt="couple qui s'embrasse lors d'une cérémonie de mariage"
                 />
               </picture>
             </div>
@@ -268,13 +265,13 @@
           </picture>
         </div>
         <div id="about-me">
-          <h3 class="about-me__title">A propos de moi</h3>
-          <h6 class="about-me__introduction">
+          <h2 class="about-me__title">A propos de moi</h2>
+          <h3 class="about-me__introduction">
             Devenir photographe était pour moi une évidence. Comme si j’y étais
             prédestiné. Saisir un moment, une émotion, une situation, un
             endroit, une lumière et les rendre immortels, voilà ce qui me fait
             vibrer.
-          </h6>
+          </h3>
           <p>
             Nous passons notre vie à chercher le bonheur, et lorsque nous y
             touchons, nous n’avons qu’une envie : le figer au travers de
@@ -290,84 +287,198 @@
       </section>
       <!-- Section Galerie interactive : chargement et affichage par maugallery.js -->
       <section id="gallery">
+        <!-- h3 : titre de section (sous-section de la page) -->
         <h3 class="title">Portfolio</h3>
         <div class="container py-3">
+          <!-- gallery : div cachée au départ, affichée par maugallery.js après chargement -->
+          <!-- Cela prévient le CLS et améliore les performances de rendu initial -->
           <div class="gallery" style="display: none">
+            <!-- ========================= -->
+            <!-- Image 1 : Concert         -->
+            <!-- ========================= -->
+            <!-- Optimisation responsive : srcset charge la meilleure version selon l'écran -->
+            <!-- - 480px : mobile | 1024px : tablet | 1600px : desktop -->
+            <!-- - sizes : indique au navigateur l'espace disponible -->
+            <!-- - loading="lazy" : charge l'image seulement quand elle devient proche de la vue -->
             <img
               data-gallery-tag="Concert"
               class="gallery-item"
-              src="./assets/images/gallery/concerts/aaron-paul-wnX-fXzB6Cw-unsplash.webp"
+              src="./assets/images/gallery/concerts/aaron-paul-1024.webp"
+              srcset="
+                ./assets/images/gallery/concerts/aaron-paul-480.webp   480w,
+                ./assets/images/gallery/concerts/aaron-paul-1024.webp 1024w,
+                ./assets/images/gallery/concerts/aaron-paul-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="1067"
+              loading="lazy"
               alt="Concert en salle avec musiciens"
-              loading="lazy"
             />
+
+            <!-- ========================= -->
+            <!-- Image 2 : Entreprise      -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Entreprises"
               class="gallery-item"
-              src="./assets/images/gallery/entreprise/ali-morshedlou-WMD64tMfc4k-unsplash.webp"
+              src="./assets/images/gallery/entreprise/ali-morshedlou-1024.webp"
+              srcset="
+                ./assets/images/gallery/entreprise/ali-morshedlou-480.webp   480w,
+                ./assets/images/gallery/entreprise/ali-morshedlou-1024.webp 1024w,
+                ./assets/images/gallery/entreprise/ali-morshedlou-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="2400"
+              loading="lazy"
               alt="Portrait d'entreprise en studio"
-              loading="lazy"
             />
+
+            <!-- ========================= -->
+            <!-- Image 3 : Entreprise      -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Entreprises"
               class="gallery-item"
-              src="./assets/images/gallery/entreprise/jason-goodman-tHO1_OuKbg0-unsplash.webp"
+              src="./assets/images/gallery/entreprise/jason-goodman-1024.webp"
+              srcset="
+                ./assets/images/gallery/entreprise/jason-goodman-480.webp   480w,
+                ./assets/images/gallery/entreprise/jason-goodman-1024.webp 1024w,
+                ./assets/images/gallery/entreprise/jason-goodman-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="1067"
+              loading="lazy"
               alt="Équipe d'entreprise en réunion"
-              loading="lazy"
             />
+
+            <!-- ========================= -->
+            <!-- Image 4 : Mariage         -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Mariages"
               class="gallery-item"
-              src="./assets/images/gallery/mariage/hannah-busing-RvF2R_qMpRk-unsplash.webp"
+              src="./assets/images/gallery/mariage/hannah-busing-1024.webp"
+              srcset="
+                ./assets/images/gallery/mariage/hannah-busing-480.webp   480w,
+                ./assets/images/gallery/mariage/hannah-busing-1024.webp 1024w,
+                ./assets/images/gallery/mariage/hannah-busing-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="1067"
+              loading="lazy"
               alt="Cérémonie de mariage en extérieur"
-              loading="lazy"
             />
+
+            <!-- ========================= -->
+            <!-- Image 5 : Portrait        -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Portrait"
               class="gallery-item"
-              src="./assets/images/gallery/portraits/ade-tunji-rVkhWWZFAtQ-unsplash.webp"
-              alt="Portrait artistique en noir et blanc"
+              src="./assets/images/gallery/portraits/ade-tunji-1024.webp"
+              srcset="
+                ./assets/images/gallery/portraits/ade-tunji-480.webp   480w,
+                ./assets/images/gallery/portraits/ade-tunji-1024.webp 1024w,
+                ./assets/images/gallery/portraits/ade-tunji-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="2400"
               loading="lazy"
+              alt="Portrait artistique en noir et blanc"
             />
+
+            <!-- ========================= -->
+            <!-- Image 6 : Mariage         -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Mariages"
               class="gallery-item"
-              src="./assets/images/gallery/mariage/jakob-owens-SiniLJkXhMc-unsplash.webp"
-              alt="Couple lors d'une cérémonie de mariage"
+              src="./assets/images/gallery/mariage/jakob-owens-1024.webp"
+              srcset="
+                ./assets/images/gallery/mariage/jakob-owens-480.webp   480w,
+                ./assets/images/gallery/mariage/jakob-owens-1024.webp 1024w,
+                ./assets/images/gallery/mariage/jakob-owens-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="1067"
               loading="lazy"
+              alt="Couple lors d'une cérémonie de mariage"
             />
+
+            <!-- ========================= -->
+            <!-- Image 7 : Portrait        -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Portrait"
               class="gallery-item"
-              src="./assets/images/gallery/portraits/nino-van-prattenburg--443cl1uR_8-unsplash.webp"
-              alt="Portrait en studio avec éclairage naturel"
+              src="./assets/images/gallery/portraits/nino-van-prattenburg--1024.webp"
+              srcset="
+                ./assets/images/gallery/portraits/nino-van-prattenburg--480.webp   480w,
+                ./assets/images/gallery/portraits/nino-van-prattenburg--1024.webp 1024w,
+                ./assets/images/gallery/portraits/nino-van-prattenburg--1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="2400"
               loading="lazy"
+              alt="Portrait en studio avec éclairage naturel"
             />
+
+            <!-- ========================= -->
+            <!-- Image 8 : Concert         -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Concert"
               class="gallery-item"
-              src="./assets/images/gallery/concerts/austin-neill-hgO1wFPXl3I-unsplash.webp"
-              alt="Performance musicale sur scène"
+              src="./assets/images/gallery/concerts/austin-neill-1024.webp"
+              srcset="
+                ./assets/images/gallery/concerts/austin-neill-480.webp   480w,
+                ./assets/images/gallery/concerts/austin-neill-1024.webp 1024w,
+                ./assets/images/gallery/concerts/austin-neill-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="1067"
               loading="lazy"
+              alt="Performance musicale sur scène"
             />
+
+            <!-- ========================= -->
+            <!-- Image 9 : Entreprise      -->
+            <!-- ========================= -->
             <img
               data-gallery-tag="Entreprises"
               class="gallery-item"
-              src="./assets/images/gallery/entreprise/mateus-campos-felipe-Fsgzm8N0hIY-unsplash.webp"
-              alt="Portrait professionnel d'entreprise"
+              src="./assets/images/gallery/entreprise/mateus-campos-felipe-1024.webp"
+              srcset="
+                ./assets/images/gallery/entreprise/mateus-campos-felipe-480.webp   480w,
+                ./assets/images/gallery/entreprise/mateus-campos-felipe-1024.webp 1024w,
+                ./assets/images/gallery/entreprise/mateus-campos-felipe-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              width="1600"
+              height="1067"
               loading="lazy"
+              alt="Portrait professionnel d'entreprise"
             />
           </div>
         </div>
         <div class="quote">
           <figure>
             <blockquote>
-              <h1 class="quote__text">
+              <p class="quote__text">
                 Un portrait n’est pas une ressemblance. Dès lors qu’une émotion
                 ou qu’un fait est traduit en photo, il cesse d’être un fait pour
                 devenir une opinion. L’inexactitude n’existe pas en
                 photographie. Toutes les photos sont exactes. Aucune d’elles
                 n’est la vérité.
-              </h1>
+              </p>
             </blockquote>
             <figcaption class="quote__author">- Richard Avedon</figcaption>
           </figure>
@@ -375,7 +486,7 @@
       </section>
       <!-- Section Services avec offres et tarifs -->
       <section id="services">
-        <h3 class="title">Mes services</h3>
+        <h2 class="title">Mes services</h2>
         <div class="container">
           <div class="service">
             <div class="service__description">
@@ -424,11 +535,11 @@
       <div class="quote">
         <figure>
           <blockquote>
-            <h1 class="quote__text">
+            <p class="quote__text">
               De manière inconsciente, je crois, je guette un regard, une
               expression, des traits ou une nostalgie capable de résumer ou plus
               exactement de révéler une vie
-            </h1>
+            </p>
           </blockquote>
           <figcaption class="quote__author">- Richard Avedon</figcaption>
         </figure>
@@ -437,7 +548,7 @@
       <section id="contact">
         <div class="container">
           <div class="form-container">
-            <h3>Une question ? Une demande de devis ?</h3>
+            <h2>Une question ? Une demande de devis ?</h2>
             <p>
               N’hésitez pas à m’écrire ! Je vous répondrais en moins de 24
               heures

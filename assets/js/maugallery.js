@@ -131,10 +131,12 @@
       }
     },
     // Ouvre la lightbox avec l'image cliquée
+    // Amélioration d'accessibilité : copie l'alt texte de l'image pour la modale
     openLightBox(element, lightboxId) {
       $(`#${lightboxId}`)
         .find(".lightboxImage")
-        .attr("src", element.attr("src"));
+        .attr("src", element.attr("src"))
+        .attr("alt", element.attr("alt") || "Image agrandie");
       $(`#${lightboxId}`).modal("toggle");
     },
     // -------------  Navigue vers l'image précédente dans la lightbox -------------------------------------------//
@@ -244,13 +246,13 @@
                         <div class="modal-body">
                             ${
                               navigation
-                                ? '<div class="mg-prev" style="cursor:pointer;position:absolute;top:50%;left:-15px;background:white;"><</div>'
+                                ? '<button type="button" class="mg-prev" aria-label="Image précédente" style="cursor:pointer;position:absolute;top:50%;left:-15px;background:white;border:none;font-size:1.2rem;line-height:1;">‹</button>'
                                 : '<span style="display:none;" />'
                             }
                             <img class="lightboxImage img-fluid" alt="Contenu de l'image affichée dans la modale au clique"/>
                             ${
                               navigation
-                                ? '<div class="mg-next" style="cursor:pointer;position:absolute;top:50%;right:-15px;background:white;}">></div>'
+                                ? '<button type="button" class="mg-next" aria-label="Image suivante" style="cursor:pointer;position:absolute;top:50%;right:-15px;background:white;border:none;font-size:1.2rem;line-height:1;">›</button>'
                                 : '<span style="display:none;" />'
                             }
                         </div>
