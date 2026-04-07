@@ -51,10 +51,14 @@
     <!-- preconnect : établit une connexion prioritaire aux serveurs externes de Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- display=swap : affiche le texte immédiatement avec une police système,
-         puis bascule vers la police Google une fois chargée. Évite le blocage du rendu. -->
+    <!-- Chargement optimisé des polices :
+         - Inter 400 : corps de texte par défaut
+         - Spectral 300i, 400, 800, 800i : citations, titres, introduction
+         - display=swap : affiche le texte immédiatement, bascule après chargement
+         - Réduit ~30% de la taille des fonts en supprimant les poids inutilisés
+    -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Spectral:ital,wght@0,400;1,300;1,400;1,800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Spectral:ital,wght@0,400;0,800;1,300;1,800&display=swap"
       rel="stylesheet"
     />
 
@@ -156,6 +160,8 @@
               ><img
                 src="assets/images/instagram.png"
                 alt="Profil Instagram de Nina Carducci"
+                width="20"
+                height="20"
             /></a>
           </li>
         </ul>
@@ -193,22 +199,23 @@
           </div>
 
           <div class="carousel-inner">
-            <!-- SLIDE 1 — Image LCP (Largest Contentful Paint) optimisée pour les performances -->
+            <!-- SLIDE 1 — Image LCP (Largest Contentful Paint) optimisée pour les performances
+                 - srcset : image responsive pour différentes tailles d'écran
+                 - fetchpriority="high" : charge cette image en priorité
+                 - loading="eager" : charge immédiatement (pas de lazy loading)
+                 - decoding="async" : décode en parallèle sans bloquer le rendu
+                 - width/height : prévient le CLS (Cumulative Layout Shift)
+            -->
             <div class="carousel-item active">
               <img
                 id="lcp-image"
                 src="./assets/images/slider/ryoji-1024.webp"
-                <!-- srcset : image responsive pour différentes tailles d'écran -->
                 srcset="./assets/images/slider/ryoji-480.webp 480w, ./assets/images/slider/ryoji-1024.webp 1024w, ./assets/images/slider/ryoji-1600.webp 1600w"
                 sizes="100vw"
-                <!-- fetchpriority="high" : indique au navigateur que c'est l'image prioritaire -->
                 fetchpriority="high"
-                <!-- loading="eager" : charge l'image immédiatement au lieu de lazy-loading -->
                 loading="eager"
-                <!-- decoding="async" : décode l'image en parallèle sans bloquer le rendu -->
                 decoding="async"
                 class="d-block w-100"
-                <!-- width/height : prévient le CLS (Cumulative Layout Shift) -->
                 width="1600"
                 height="900"
                 alt="homme d'affaire qui marche sur un passage piéton en ville"
@@ -292,6 +299,8 @@
             <img
               src="./assets/images/nina.png"
               alt="Portrait de Nina Carducci"
+              width="400"
+              height="500"
             />
           </picture>
         </div>
@@ -625,6 +634,8 @@
             <img
               src="./assets/images/camera.webp"
               alt="Appareil photo vintage"
+              width="400"
+              height="500"
               loading="lazy"
             />
           </div>
