@@ -21,16 +21,10 @@
     <!-- STRATÉGIE DE CHARGEMENT CSS & FONTES OPTIMISÉE
          Objectif : minimiser le rendu bloquant et optimiser le LCP (Largest Contentful Paint)
          
-         1. CSS custom (style.css) : chargé en sync (NÉCESSAIRE pour éviter FOUC)
-         2. Bootstrap CSS : chargé en async via preload (non critique pour LCP)
+          1. Bootstrap CSS : chargé en async via preload (non critique pour LCP)
+         2. CSS custom (style.css) : chargé en sync (NÉCESSAIRE pour éviter FOUC)
          3. Google Fonts : avec display=swap (texte s'affiche d'abord avec serif, puis Google Fonts)
     -->
-
-    <!-- CSS -->
-    <!-- CSS custom du site : CRITIQUE pour le rendu du carousel et du header
-         Doit être chargé en synchrone pour éviter le flash of unstyled content (FOUC)
-         Taille réduite (2,6 KiB) pour minimiser l'impact sur le LCP -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
 
     <!-- Bootstrap CSS chargé en async pour ne pas bloquer le LCP
          - preload : indique au navigateur de commencer le téléchargement en priorité
@@ -41,27 +35,46 @@
       rel="preload"
       as="style"
       href="./assets/bootstrap/bootstrap.min.css"
-      onload="this.onload=null;this.rel='stylesheet'"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
     <noscript>
       <link rel="stylesheet" href="./assets/bootstrap/bootstrap.min.css" />
     </noscript>
 
+    <!-- CSS custom du site : CRITIQUE pour le rendu du carousel et du header
+         Doit être chargé en synchrone pour éviter le flash of unstyled content (FOUC)
+         Taille réduite (2,6 KiB) pour minimiser l'impact sur le LCP -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
+
     <!-- Optimisation des polices -->
     <!-- preconnect : établit une connexion prioritaire aux serveurs externes de Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Préchargement de la feuille de style Google Fonts pour réduire le chemin critique -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Spectral:ital,wght@0,400;0,800;1,300;1,800&display=swap"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Spectral:ital,wght@0,400;0,800;1,300;1,800&display=swap"
+      />
+    </noscript>
     <!-- Chargement optimisé des polices :
          - Inter 400 : corps de texte par défaut
          - Spectral 300i, 400, 800, 800i : citations, titres, introduction
          - display=swap : affiche le texte immédiatement, bascule après chargement
          - Réduit ~30% de la taille des fonts en supprimant les poids inutilisés
     -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Spectral:ital,wght@0,400;0,800;1,300;1,800&display=swap"
-      rel="stylesheet"
-    />
-
 
     <!-- Accessibilité -->
     <meta name="theme-color" content="#ffffff" />
@@ -210,7 +223,11 @@
               <img
                 id="lcp-image"
                 src="./assets/images/slider/ryoji-1024.webp"
-                srcset="./assets/images/slider/ryoji-480.webp 480w, ./assets/images/slider/ryoji-1024.webp 1024w, ./assets/images/slider/ryoji-1600.webp 1600w"
+                srcset="
+                  ./assets/images/slider/ryoji-480.webp   480w,
+                  ./assets/images/slider/ryoji-1024.webp 1024w,
+                  ./assets/images/slider/ryoji-1600.webp 1600w
+                "
                 sizes="100vw"
                 fetchpriority="high"
                 loading="eager"
