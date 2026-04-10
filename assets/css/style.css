@@ -160,7 +160,7 @@ body {
   width: 60%;
 }
 #about-me p {
-  width: 80%;
+  max-width: 80%;
   font-size: 14px;
 }
 
@@ -255,12 +255,9 @@ body {
   padding-block: 3em;
 }
 .quote__text {
-  font-family: Spectral;
-  font-style: italic;
   font-weight: 300;
 }
 .quote__author {
-  font-family: Spectral;
   font-weight: 800;
   font-size: 22px;
 }
@@ -347,9 +344,11 @@ form textarea {
   font-size: 1.2em;
   margin-bottom: 20px;
 }
-input[type="submit"] {
+button[type="submit"] {
   background-color: #beb45a;
   padding: 0.5em 1em;
+  border: none;
+  cursor: pointer;
 }
 
 @media all and (max-width: 1180px) {
@@ -432,6 +431,7 @@ input[type="submit"] {
   .top-header {
     flex-direction: column;
     padding-inline: 0;
+    gap: 1em;
   }
   .top-header .nav,
   .top-header .nav ul {
@@ -464,16 +464,4 @@ input[type="submit"] {
   .picture {
     width: 80%;
   }
-}
-
-/* ========================= */
-/* Correction LCP Lighthouse */
-/* ========================= */
-
-#lcp-image {
-  /* Ensure the image is treated as a visible LCP candidate */
-}
-.carousel-item.active #lcp-image {
-  opacity: 1 !important;
-  transform: none !important;
 }
